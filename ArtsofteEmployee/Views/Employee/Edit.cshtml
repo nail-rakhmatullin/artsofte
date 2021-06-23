@@ -1,0 +1,111 @@
+﻿@model ArtsofteEmployee.Models.Person.Employee
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Employee</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-controller="Employee" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input type="hidden" asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DepartmentId" class="control-label">Department</label>
+                <select class="departmentSelector" asp-for="DepartmentId">
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProgrammingLanguageId" class="control-label">Programming language</label>
+                <select class="programmingLanguageSelector" asp-for="ProgrammingLanguageId">
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-controller="Home">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("Get", "Department")',
+                type: 'GET',
+                data: {
+                    action: 'get',
+                },
+                beforeSend: function (xhr) { },
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    obj.forEach(el => {
+                        $('.departmentSelector').append(
+                            '<option value="' + el.Id + '">' + el.Name + '</option>'
+                        )
+                    }
+
+                    );
+                },
+                error: function () {
+                    alert('Error: cannot load departments');
+                }
+            });
+        });
+
+         $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("Get", "ProgrammingLanguage")',
+                type: 'GET',
+                data: {
+                    action: 'get',
+                },
+                beforeSend: function (xhr) { },
+                success: function (data) {
+                    var obj = JSON.parse(data);
+                    obj.forEach(el =>
+                        $('.programmingLanguageSelector').append(
+                            '<option value="'+el.Id+'">'+el.Name+'</option>'
+                        )
+                    );
+                },
+                error: function () {
+                    alert('Error: cannot load programming languages');
+                }
+            });
+        });
+
+    </script>
+}

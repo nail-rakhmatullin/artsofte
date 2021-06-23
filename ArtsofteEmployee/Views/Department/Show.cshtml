@@ -1,0 +1,21 @@
+﻿@using ArtsofteEmployee.Models.Dictioneries;
+
+@model IEnumerable<Department>
+
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+<div class="container">
+    @foreach (var department in Model) {
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title">Name: @department.Name</p>
+                <p class="card-title">Floor: @department.Floor</p>
+                <a class="btn btn-success" asp-action="Edit" asp-controller="Department" asp-route-id="@department.Id">Edit</a>
+            </div>
+        </div>
+    }
+    <a asp-action="Index" asp-controller="Home">Back to Home</a>
+</div>
